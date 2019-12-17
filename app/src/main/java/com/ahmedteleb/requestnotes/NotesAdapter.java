@@ -3,55 +3,57 @@ package com.ahmedteleb.requestnotes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.j256.ormlite.dao.Dao;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ahmed Teleb on 24-Aug-17.
  */
 
-public class NotesAdapter extends BaseAdapter {
-    ArrayList<Note> notes;
+public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteHolder> {
 
-    public NotesAdapter(ArrayList<Note> notes) {
-        this.notes = notes;
+    private List<Note> notes = new ArrayList<>();
+
+    @NonNull
+    @Override
+    public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.note_in_grid, parent, false);
+        return new NoteHolder(itemView);
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
+        Note currentNote = notes.get(position);
+        holder.textViewTitle.setText(currentNote.getTitle());
+        holder.textViewDescription.setText(currentNote.getSubject());
+    }
+
+    @Override
+    public int getItemCount() {
         return notes.size();
     }
 
-    @Override
-    public Note getItem(int position) {
-        return notes.get(position);
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+        notifyDataSetChanged();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return notes.get(position).getNoteId();
-    }
+    class NoteHolder extends RecyclerView.ViewHolder {
+        private TextView textViewTitle;
+        private TextView textViewDescription;
 
-    @Override
-    public View getView(int position, View oldView, ViewGroup adapterView)
-    {
-        oldView = LayoutInflater.from(adapterView.getContext())
-                .inflate(R.layout.note_in_grid, null);
-
-        TextView subject_et = oldView.findViewById(R.id.tv_sub_grid);
-        TextView title_et = oldView.findViewById(R.id.tv_title_grid);
-
-         Note note = getItem(position);
-
-        subject_et.setText(note.getSubject());
-        title_et.setText(note.getTitle());
-
-
-        return oldView;
+        public NoteHolder(View itemView) {
+            super(itemView);
+            textViewTitle = itemView.findViewById(R.id.tv_title_grid);
+            textViewDescription = itemView.findViewById(R.id.tv_sub_grid);
+        }
     }
 }

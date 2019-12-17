@@ -4,6 +4,10 @@ import android.content.Intent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,19 +15,34 @@ import android.widget.TextView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Home_Activity extends AppCompatActivity {
 
 
+    private NoteViewModel noteViewModel;
     FloatingActionButton fab;
-    RecyclerView listNotes;
+    RecyclerView noteRecycler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_);
 
         fab = findViewById(R.id.myFAB);
-        listNotes = findViewById(R.id.list_Notes);
+        noteRecycler = findViewById(R.id.list_Notes);
+        noteRecycler.setLayoutManager(new GridLayoutManager(this,2));
+
+        final NotesAdapter notesAdapter =new NotesAdapter();
+                noteRecycler.setAdapter(notesAdapter);
+
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+        noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes)
+            {
+                notesAdapter.setNotes(notes);
+            }
+        });
 
 
         fab.setOnClickListener(new View.OnClickListener() {
