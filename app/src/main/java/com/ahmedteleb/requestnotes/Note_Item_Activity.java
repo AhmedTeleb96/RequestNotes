@@ -22,8 +22,6 @@ public class Note_Item_Activity extends AppCompatActivity
             "com.ahmedteleb.requestnotes.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION =
             "com.ahmedteleb.requestnotes.EXTRA_DESCRIPTION";
-    public static final String EXTRA_PRIORITY =
-            "com.ahmedteleb.requestnotes.EXTRA_PRIORITY";
 
     EditText subject_et ;
     EditText title_et ;

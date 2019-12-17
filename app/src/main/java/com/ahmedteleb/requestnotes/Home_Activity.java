@@ -12,12 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Home_Activity extends AppCompatActivity {
+
+    public static final int ADD_NOTE_REQUEST = 1;
 
 
     private NoteViewModel noteViewModel;
@@ -49,75 +52,28 @@ public class Home_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final Intent i = new Intent(getApplicationContext(), Note_Item_Activity.class);
-                startActivity(i);
+                startActivityForResult(i, ADD_NOTE_REQUEST);
             }
 
         });
 
-        final Intent i2 = new Intent(this, ViewActivity.class);
 
-      /*  listNotes.On(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
-                TextView tv_title= view.findViewById(R.id.tv_title_grid);
-                TextView tv_sub=view.findViewById(R.id.tv_sub_grid);
-
-
-                try {
-                    DatabaseHelper helper = new DatabaseHelper(adapterView.getContext());
-                    NotesAdapter adapter = new NotesAdapter((ArrayList<Note>) helper.getNoteDao().queryForAll());
-                    Note note = adapter.getItem(i);
-
-
-                i2.putExtra("id", note.getNoteId());
-                i2.putExtra("title",tv_title.getText().toString());
-                i2.putExtra("subject",tv_sub.getText().toString());
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                startActivity(i2);
-
-
-            }
-        });
     }
-
-
-
-    private void getNoteOffline() {
-        DatabaseHelper helper = new DatabaseHelper(this);
-        try {
-
-            showFlowers((ArrayList<Note>) helper.getNoteDao().queryForAll());
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    NotesAdapter adapter;
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        getNoteOffline();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    }
+        if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
+            String title = data.getStringExtra(Note_Item_Activity.EXTRA_TITLE);
+            String description = data.getStringExtra(Note_Item_Activity.EXTRA_DESCRIPTION);
 
-    private void showFlowers(ArrayList<Note> notes) {
+            Note note = new Note(title, description);
+            noteViewModel.insert(note);
 
-        adapter = new NotesAdapter(notes);
-
-        adapter.notifyDataSetChanged();
-
-        listNotes.setAdapter(adapter);
-
-    }
-
-
-       */
+            Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();
+        }
     }
 }

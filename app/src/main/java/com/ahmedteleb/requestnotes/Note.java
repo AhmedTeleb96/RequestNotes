@@ -20,6 +20,11 @@ public class Note
     @ColumnInfo(name = "subject")
     private String subject;
 
+    public Note(String title, String subject) {
+        this.title = title;
+        this.subject = subject;
+    }
+
     public int getNoteId() {
         return NoteId;
     }

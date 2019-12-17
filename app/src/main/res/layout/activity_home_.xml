@@ -7,18 +7,7 @@
     tools:context="com.ahmedteleb.requestnotes.Home_Activity"
     android:background="#5e5e5e"
     >
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/myFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:elevation="4dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:background="#8fdac6"
-        app:rippleColor="#8fdac6"
-        android:src="@drawable/ic_action_add"
-        />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -32,22 +21,20 @@
         android:horizontalSpacing="5dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="7dp"
+        tools:listitem="@layout/note_in_grid"
         />
-    <!--
-    <GridView
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/myFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_Notes"
-        android:divider="#a7a7a7"
-        android:dividerHeight="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:horizontalSpacing="5dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="7dp"
-        >
-    </GridView>
-    -->
+        app:elevation="4dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="#8fdac6"
+        app:rippleColor="#8fdac6"
+        android:src="@drawable/ic_action_add"
+        />
+
 </RelativeLayout>
