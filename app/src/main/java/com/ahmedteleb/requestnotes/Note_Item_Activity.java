@@ -1,5 +1,6 @@
 package com.ahmedteleb.requestnotes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -17,6 +18,13 @@ import java.sql.SQLException;
 
 public class Note_Item_Activity extends AppCompatActivity
 {
+    public static final String EXTRA_TITLE =
+            "com.ahmedteleb.requestnotes.EXTRA_TITLE";
+    public static final String EXTRA_DESCRIPTION =
+            "com.ahmedteleb.requestnotes.EXTRA_DESCRIPTION";
+    public static final String EXTRA_PRIORITY =
+            "com.ahmedteleb.requestnotes.EXTRA_PRIORITY";
+
     EditText subject_et ;
     EditText title_et ;
     Button   btn_insert;
@@ -29,32 +37,32 @@ public class Note_Item_Activity extends AppCompatActivity
         title_et =  findViewById(R.id.title_ed);
         btn_insert = findViewById(R.id.btn_noteInsert);
 
-        final Note note = new Note();
-
-
-
-     //   DatabaseHelper helper = new DatabaseHelper(this);
-     //   final Dao<Note, Integer> dao = helper.getNoteDao();
 
         btn_insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
-
-                        note.setTitle(title_et.getText().toString());
-                        note.setSubject(subject_et.getText().toString());
-
-                      //  dao.createIfNotExists(note);
-                      //  dao.notifyChanges();
-                    Toast.makeText(getBaseContext(),"Insert Success . . .",Toast.LENGTH_SHORT).show();
-
-
-
+                saveNote();
             }
         });
 
 
     }
 
+    private void saveNote() {
+        String title = title_et.getText().toString();
+        String description = subject_et.getText().toString();
+
+        if (title.trim().isEmpty() || description.trim().isEmpty()) {
+            Toast.makeText(this, "Please insert a title and description", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent data = new Intent();
+        data.putExtra(EXTRA_TITLE, title);
+        data.putExtra(EXTRA_DESCRIPTION, description);
+
+        setResult(RESULT_OK, data);
+        finish();
+    }
 }
