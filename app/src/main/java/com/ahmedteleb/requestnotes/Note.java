@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 /**
  * Created by Ahmed Teleb on 24-Aug-17.
  */
-@Entity
+@Entity(tableName = "Note")
 public class Note
 {
     @ColumnInfo(name = "NoteId")
