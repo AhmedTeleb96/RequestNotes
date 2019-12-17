@@ -25,11 +25,11 @@ public class Home_Activity extends AppCompatActivity {
         fab = findViewById(R.id.myFAB);
         listNotes = findViewById(R.id.list_Notes);
 
-        final Intent i = new Intent(this, Note_Item_Activity.class);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final Intent i = new Intent(getApplicationContext(), Note_Item_Activity.class);
                 startActivity(i);
             }
 
