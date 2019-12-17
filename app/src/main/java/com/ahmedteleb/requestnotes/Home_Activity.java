@@ -2,12 +2,15 @@ package com.ahmedteleb.requestnotes;
 
 import android.content.Intent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,14 +51,30 @@ public class Home_Activity extends AppCompatActivity {
         });
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public void onClick(View view) {
-                final Intent i = new Intent(getApplicationContext(), Note_Item_Activity.class);
-                startActivityForResult(i, ADD_NOTE_REQUEST);
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder
+                    , @NonNull RecyclerView.ViewHolder target)
+            {
+                return false;
             }
 
-        });
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
+            {
+                noteViewModel.delete(notesAdapter.getNoteAt(viewHolder.getAdapterPosition()));
+            }
+        }).attachToRecyclerView(noteRecycler);
+
+
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Intent i = new Intent(getApplicationContext(), Note_Item_Activity.class);
+                        startActivityForResult(i, ADD_NOTE_REQUEST);
+                    }
+
+                });
 
 
     }
