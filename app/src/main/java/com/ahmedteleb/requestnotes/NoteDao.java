@@ -1,9 +1,11 @@
 package com.ahmedteleb.requestnotes;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -11,12 +13,15 @@ import java.util.List;
 public interface NoteDao
 {
     @Query("SELECT * FROM Note")
-    List<Note> getAllNotes();
+   LiveData<List<Note>>  getAllNotes();
 
 
     @Insert
     void insertNote(Note note);
 
+    @Update
+    void updateNote(Note note);
+
     @Delete
-    void delete(Note note);
+    void deleteNote(Note note);
 }
