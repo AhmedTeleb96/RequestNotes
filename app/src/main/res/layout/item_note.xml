@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title :- "
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000"
+        android:textSize="18sp"
+        />
+    <EditText
+        android:id="@+id/title_ed"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#bfdce9"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subject :- "
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="7dp"
+        android:textColor="#000"
+        android:textSize="18sp"
+        />
+
+    <EditText
+        android:id="@+id/subject_ed"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:background="#bfdce9"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000"
+        android:gravity="top"
+        />
+
+    <Button
+        android:id="@+id/btn_noteInsert"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Insert Note"
+        android:layout_margin="20dp"
+        />
+</LinearLayout>
