@@ -33,9 +33,11 @@ public class Edit_Activity extends AppCompatActivity implements View.OnClickList
         btn_update = (Button) findViewById(R.id.btn_noteUpdate);
         btn_update.setOnClickListener(this);
 
-        Bundle b = getIntent().getExtras();
-        title_et_.setText(b.getString("title"));
-        subject_et_.setText(b.getString("subject"));
+        Intent intent = getIntent();
+
+        setTitle("Edit Note");
+        title_et_.setText(intent.getStringExtra(EXTRA_TITLE));
+        subject_et_.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
 
     }
 
@@ -52,8 +54,6 @@ public class Edit_Activity extends AppCompatActivity implements View.OnClickList
 
         setResult(RESULT_OK, data);
         finish();
-        Toast.makeText(getBaseContext(),"Update Success",Toast.LENGTH_SHORT).show();
-
 
     }
 }

@@ -71,13 +71,14 @@ public class Home_Activity extends AppCompatActivity {
         notesAdapter.setOnItemClickListener(new NotesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Note note) {
-                Intent intent = new Intent(Home_Activity.this, ViewActivity.class);
-                intent.putExtra(ViewActivity.EXTRA_ID, note.getNoteId());
-                intent.putExtra(ViewActivity.EXTRA_TITLE, note.getTitle());
-                intent.putExtra(ViewActivity.EXTRA_DESCRIPTION, note.getSubject());
-                startActivity(intent);
+                Intent intent = new Intent(Home_Activity.this, Edit_Activity.class);
+                intent.putExtra(Edit_Activity.EXTRA_ID, note.getNoteId());
+                intent.putExtra(Edit_Activity.EXTRA_TITLE, note.getTitle());
+                intent.putExtra(Edit_Activity.EXTRA_DESCRIPTION, note.getSubject());
+                startActivityForResult(intent,EDIT_NOTE_REQUEST);
             }
         });
+
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
