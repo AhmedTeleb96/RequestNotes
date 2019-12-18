@@ -9,11 +9,17 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
-
 import java.sql.SQLException;
 
 public class ViewActivity extends AppCompatActivity  {
+
+    public static final String EXTRA_ID =
+            "com.ahmedteleb.requestnotes.EXTRA_ID";
+    public static final String EXTRA_TITLE =
+            "com.ahmedteleb.requestnotes.EXTRA_TITLE";
+    public static final String EXTRA_DESCRIPTION =
+            "com.ahmedteleb.requestnotes.EXTRA_DESCRIPTION";
+    public static final int EDIT_NOTE_REQUEST = 2;
 
     TextView tv_title;
     TextView tv_sub;
@@ -31,17 +37,11 @@ public class ViewActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
 
-        DatabaseHelper helper = new DatabaseHelper(this);
-        Dao<Note, Integer> dao = helper.getNoteDao();
-        Bundle b = getIntent().getExtras();
-        try {
-            Note note = dao.queryForId(b.getInt("id"));
-            tv_title.setText(note.getTitle());
-            tv_sub.setText(note.getSubject());
+        Intent intent = getIntent();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+             setTitle("Edit Note");
+             tv_title.setText(intent.getStringExtra(EXTRA_TITLE));
+             tv_sub.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
 
     }
 
@@ -55,35 +55,18 @@ public class ViewActivity extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Bundle b = getIntent().getExtras();
-        if(item.getItemId() == R.id.delete_icon)
-        {
-            try {
 
-                DatabaseHelper helper = new DatabaseHelper(this);
-                Dao<Note, Integer> dao = helper.getNoteDao();
-
-                if (dao.idExists(b.getInt("id"))) {
-                    dao.delete(dao.queryForId(b.getInt("id")));
-                    Toast.makeText(this,"Delete Success . . .",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-
-            }catch (Exception e)
-            {
-                Toast.makeText(this,"error . . .",Toast.LENGTH_SHORT).show();
-            }
-
-
-        }
-        else
+        if(item.getItemId() == R.id.edit_icon)
         {
 
-            Intent in = new Intent(this,Edit_Activity.class);
-            in.putExtra("id",b.getInt("id"));
-            in.putExtra("title",tv_title.getText().toString());
-            in.putExtra("subject",tv_sub.getText().toString());
+            Intent response= getIntent();
 
-            startActivity(in);
+            Intent intent = new Intent(this,Edit_Activity.class);
+            intent.putExtra(EXTRA_ID, intent.getStringExtra(EXTRA_ID));
+            intent.putExtra(EXTRA_TITLE, intent.getStringExtra(EXTRA_TITLE));
+            intent.putExtra(EXTRA_DESCRIPTION, intent.getStringExtra(EXTRA_DESCRIPTION));
+            startActivityForResult(intent,EDIT_NOTE_REQUEST);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -24,6 +24,7 @@ import java.util.List;
 public class Home_Activity extends AppCompatActivity {
 
     public static final int ADD_NOTE_REQUEST = 1;
+    public static final int EDIT_NOTE_REQUEST = 2;
 
 
     private NoteViewModel noteViewModel;
@@ -67,6 +68,16 @@ public class Home_Activity extends AppCompatActivity {
         }).attachToRecyclerView(noteRecycler);
 
 
+        notesAdapter.setOnItemClickListener(new NotesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Note note) {
+                Intent intent = new Intent(Home_Activity.this, ViewActivity.class);
+                intent.putExtra(ViewActivity.EXTRA_ID, note.getNoteId());
+                intent.putExtra(ViewActivity.EXTRA_TITLE, note.getTitle());
+                intent.putExtra(ViewActivity.EXTRA_DESCRIPTION, note.getSubject());
+                startActivity(intent);
+            }
+        });
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -91,6 +102,22 @@ public class Home_Activity extends AppCompatActivity {
             noteViewModel.insert(note);
 
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(Edit_Activity.EXTRA_ID, -1);
+
+            if (id == -1) {
+                Toast.makeText(this, "Note can't be updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String title = data.getStringExtra(Edit_Activity.EXTRA_TITLE);
+            String description = data.getStringExtra(Edit_Activity.EXTRA_DESCRIPTION);
+
+            Note note = new Note(title, description);
+            note.setNoteId(id);
+            noteViewModel.update(note);
+
+            Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();
         }

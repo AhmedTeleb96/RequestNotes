@@ -1,17 +1,25 @@
 package com.ahmedteleb.requestnotes;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
-
 import java.sql.SQLException;
 
 public class Edit_Activity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final String EXTRA_ID =
+            "com.ahmedteleb.requestnotes.EXTRA_ID";
+    public static final String EXTRA_TITLE =
+            "com.ahmedteleb.requestnotes.EXTRA_TITLE";
+    public static final String EXTRA_DESCRIPTION =
+            "com.ahmedteleb.requestnotes.EXTRA_DESCRIPTION";
+
     EditText subject_et_ ;
     EditText title_et_ ;
     Button btn_update;
@@ -33,26 +41,18 @@ public class Edit_Activity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        try {
-        final Note note = new Note();
+        Intent data = new Intent();
+        data.putExtra(EXTRA_TITLE, title_et_.getText().toString());
+        data.putExtra(EXTRA_DESCRIPTION, subject_et_.getText().toString());
 
-        DatabaseHelper helper = new DatabaseHelper(this);
-        final Dao<Note, Integer> dao = helper.getNoteDao();
-
-        note.setTitle(title_et_.getText().toString());
-        note.setSubject(subject_et_.getText().toString());
-        Bundle b =getIntent().getExtras();
-        note.setNoteId(b.getInt("id"));
-
-
-            dao.update(note);
-            dao.notifyChanges();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1) {
+            data.putExtra(EXTRA_ID, id);
         }
-        Toast.makeText(getBaseContext(),"Update Success . . .",Toast.LENGTH_SHORT).show();
 
+        setResult(RESULT_OK, data);
+        finish();
+        Toast.makeText(getBaseContext(),"Update Success",Toast.LENGTH_SHORT).show();
 
 
     }

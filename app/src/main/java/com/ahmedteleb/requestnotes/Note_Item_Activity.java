@@ -18,6 +18,8 @@ import java.sql.SQLException;
 
 public class Note_Item_Activity extends AppCompatActivity
 {
+    public static final String EXTRA_ID =
+            "com.ahmedteleb.requestnotes.EXTRA_ID";
     public static final String EXTRA_TITLE =
             "com.ahmedteleb.requestnotes.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION =
